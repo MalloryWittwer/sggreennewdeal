@@ -8,6 +8,8 @@ data_tables = {
     'services_exports':{'filename':os.path.join(ROOT_DIR, 'SGP_services.csv')},
     'services_imports': {'filename': os.path.join(ROOT_DIR, 'SGP_services_imports.csv')},
     'employment': {'filename': os.path.join(ROOT_DIR, 'employment_by_industry.csv')},
+    'services_expense': {'filename': os.path.join(ROOT_DIR, 'services_expenditures.csv')},
+    'services_emission_factors': {'filename': os.path.join(ROOT_DIR, 'services_emission_factors.csv')},
 }
 
 CAT_FIELDS = ['Year','Region','Country']
@@ -116,3 +118,46 @@ def add_region_others(tbl,r):
         tbl.drop(slc[slc.Country == 'Total'].index,inplace=True)
         tbl=tbl.append(ex)
     return tbl
+
+#services emissions intensity
+#------------------------------------------------------------------------
+
+SRV_EXP_CAT_FIELDS = ['Year','Services sector']
+
+def serv_exp_cleanup():
+    # 'services_expense'
+    # 'services_emission_factors'
+
+    tbl_srv = data_tables['services_expense']['table'].copy()
+    tbl_ef = data_tables['services_emission_factors']['table'].copy()
+    tbl_srv.fillna(0,inplace=True)
+    tbl_ef.fillna(0,inplace=True)
+
+#    occp_groups = list(tbl['Occupation group'].unique())
+#    industries = [x for x in tbl.columns if not x in EMP_CAT_FIELDS]
+
+#    data_tables['employment']['Occupation groups'] = occp_groups
+#    data_tables['employment']['Industries'] = industries
+
+    data_tables['services_expense']['table'] = tbl_srv
+    data_tables['services_emission_factors']['table'] = tbl_ef
+
+def srv_emissions_intensity_tbl():
+    tbl_srv = data_tables['services_expense']['table'].copy()
+    tbl_ef = data_tables['services_emission_factors']['table'].copy()
+
+    mtbl = pd.melt(tbl_srv, id_vars=SRV_EXP_CAT_FIELDS,
+                     value_vars=[x for x in tbl_srv.columns if not x in SRV_EXP_CAT_FIELDS],
+                     var_name='Expense type')
+    btbl = pd.merge(mtbl, tbl_ef, on='Expense type')
+    btbl['Emissions tCO2'] = btbl['value'] * btbl['Emissions factor kgCO2/SGD'] / 1000
+    return btbl
+
+def srv_expense_by_group(units='value',year=2017,showall=False):
+    btbl = srv_emissions_intensity_tbl()
+    ptype = pd.pivot_table(btbl, index=['Year', 'Services sector'],
+                             columns=['Group'], values=[units], aggfunc=sum)[units]
+    if not showall:
+        ptype = ptype[[x for x in ptype.columns if not x == 'Excluded']].copy()
+    return ptype.loc[year]
+

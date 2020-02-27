@@ -3,6 +3,7 @@ from economy import explore as e
 e.read_tables()
 
 #services exports
+#------------------------------------------------------------------------------
 e.srv_cleanup()
 
 exp = e.data_tables['services_exports']['table']
@@ -15,6 +16,7 @@ exp_by_service = e.srv_by_service('services_exports')
 imp_by_service = e.srv_by_service('services_imports')
 
 #employment
+#------------------------------------------------------------------------------
 e.emp_cleanup()
 
 industries = e.data_tables['employment']['Industries']
@@ -41,6 +43,12 @@ tbl_emp_sunset = e.emp_by_occp_group(sunset)
 
 #... for prof services, social/community
 
+#services emission intensity
+#------------------------------------------------------------------------------
+e.serv_exp_cleanup()
+
+tbl_values = e.srv_expense_by_group(units='value',year=2017)
+tbl_tCO2 = e.srv_expense_by_group(units='Emissions tCO2',year=2017)
 
 #to plot stacked charts :
 """   
