@@ -1,0 +1,19 @@
+Expense type,Group,Emissions factor kgCO2/SGD,Notes
+ Remuneration ,Employment,,
+ Changes In Inventory ,Excluded,,
+ Purchases Of Goods & Materials ,Materials,1.2,UK emissions table range 0.2 - 1.0 kgCO2/GBP in 2010 and apply 2.0 GBP.SGD
+ Depreciation ,Materials,1.2,UK emissions table range 0.2 - 1.0 kgCO2/GBP in 2010 and apply 2.0 GBP.SGD
+ Freight & Transport Charges ,Energy,1.8,Source : US EPA emissions factors per ton-mile and US BTS cost per ton-mile kg CO2 per USD (2.0 Ocean 1.0 Aircraft 0.5 Rail 1.0 Road)
+" Renting Of Office, Shops & Other Premises ",Rent,,
+ Professional Services ,Services,,
+ Utilities ,Energy,2.7,[1] 80% of utilities cost from electricity [2] 0.12 SGD/kWh [3] 0.41 kg CO2/kWh
+ Communications ,Services,,
+ Advertising & Entertainment ,Services,,
+ Administrative & Management Fee ,Services,,
+ Subcontract Charges/ Work Given Out ,Services,,
+ Commission & Agency Fees ,Services,,
+ Royalties ,Services,,
+ Maintenance & Repairs ,Services,,
+ Fuels ,Energy,2,separate worksheet - estimated range 1.4 LPG 1.8 diesel kg CO2/USD
+ Financial Services ,Services,,
+ Others ,Services,,
